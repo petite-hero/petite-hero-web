@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Petite Hero | Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900'>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+  <link rel="stylesheet" href="petitehero/css/login.css">
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!-- Mixins-->
+<!-- Pen Title-->
+<div class="pen-title">
+  <h1>Petite Hero</h1>
+</div>
+<div class="rerun"></div>
+<div class="container">
+  <div class="card"></div>
+  <div class="card">
+    <h1 class="title">Login</h1>
+    <form>
+      <div class="input-container">
+        <input type="text" id="username" required="required"/>
+        <label>Username</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container">
+        <input type="password" id="password" required="required"/>
+        <label>Password</label>
+        <div class="bar"></div>
+      </div>
+      <div class="button-container">
+        <button type="button" onclick="login()"><span>Sign In</span></button>
+      </div>
+      <div class="footer"></div>
+    </form>
+  </div>
+  <div class="card alt" style="height: 100%">
+    <div class="toggle" id="wrong"></div>
+    <h1 class="title">Petite Hero
+      <div class="close"></div>
+    </h1>
+    <form>
+      <div class="input-container">
+        <input id="firstMsg" disabled/>
+        <label ></label>
+        <div class="bar"></div>
+      </div><div class="input-container">
+        <input id="secondMsg" disabled/>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src="petitehero/js/constants.js"></script>
+  <script src="petitehero/js/login.js"></script>
+  <script>
+    $('.close').on('click', function() {
+      $('.container').stop().removeClass('active');
+    });
+  </script>
+</body>
+</html>
