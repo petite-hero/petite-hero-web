@@ -269,44 +269,44 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form class="form-horizontal">
+                <form class="form-horizontal" ng-submit="add()">
                   <div class="card-body">
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">Name</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Pack name..." id="packName">
+                        <input type="text" class="form-control" placeholder="Pack name..." id="packName" required>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">Description</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Description..." id="description">
+                        <input type="text" class="form-control" placeholder="Description..." id="description" required>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">Children</label>
                       <div class="col-sm-4">
-                        <input type="number" min="1" class="form-control" placeholder="Max children..." id="maxChildren">
+                        <input type="number" min="1" class="form-control" placeholder="Max children..." id="maxChildren" required>
                       </div>
                       <label class="col-sm-2 col-form-label">Duration</label>
                       <div class="col-sm-4">
-                        <input type="number" min="1" class="form-control" placeholder="Duration (days)..." id="duration">
+                        <input type="number" min="1" class="form-control" placeholder="Duration (days)..." id="duration" required>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">Collaborator</label>
                       <div class="col-sm-4">
-                        <input type="number" min="1" class="form-control" placeholder="Max collaborator..." id="maxCollaborator">
+                        <input type="number" min="1" class="form-control" placeholder="Max collaborator..." id="maxCollaborator" required>
                       </div>
                       <label class="col-sm-2 col-form-label">Price</label>
                       <div class="col-sm-4">
-                        <input type="number" min="1" class="form-control" placeholder="Price (vnđ)..." id="price">
+                        <input type="number" min="1" class="form-control" placeholder="Price (vnđ)..." id="price" required>
                       </div>
                     </div>
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer">
-                    <button style="width: 25%" type="submit" class="btn btn-info" ng-click="add()">Create</button>
+                    <button style="width: 25%" type="submit" class="btn btn-info">Create</button>
                     <button style="width: 30%" type="submit" class="btn btn-default float-right" data-dismiss="modal">Cancel</button>
                   </div>
                   <!-- /.card-footer -->
