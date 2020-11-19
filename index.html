@@ -18,6 +18,37 @@
   <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
+  <style>    
+    .caret {
+      cursor: pointer;
+      -webkit-user-select: none; /* Safari 3.1+ */
+      -moz-user-select: none; /* Firefox 2+ */
+      -ms-user-select: none; /* IE 10+ */
+      user-select: none;
+    }
+    
+    .caret::before {
+      content: "\25B6";
+      color: black;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    
+    .caret-down::before {
+      -ms-transform: rotate(90deg); /* IE 9 */
+      -webkit-transform: rotate(90deg); /* Safari */
+      transform: rotate(90deg);  
+    }
+    
+    .nested {
+      display: none;
+    }
+    
+    .active {
+      display: block;
+    }
+  </style>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -57,8 +88,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index.html" class="brand-link">
-      <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Petite Hero</span>
+      <img src="petitehero/img/logo.png" alt="Petite Hero Logo" class="brand-image img-circle elevation-3">
+      <span class="brand-text font-weight-light" style="color: #fff;">Petite Hero</span>
     </a>
 
     <!-- Sidebar -->
@@ -66,7 +97,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="info">
-          <a href="#" class="d-block">Admin Username</a>
+          <a href="#" class="font-weight-light" style="font-size: large;">Dashboard</a>
         </div>  
       </div>
 
@@ -192,14 +223,18 @@
                   </thead>
                   <tbody>
                   <tr ng-repeat="user in users" ng-model="users">
-                    <td>{{user.name}}</td>
+                    <td ng-click="getDetails(user.phoneNumber)"><a href="#" style="color: black" data-toggle="modal" data-target="#modal-details">{{user.name}}</a></td>
                     <td>{{user.phoneNumber}}</td>
                     <td>{{user.email}}</td>
                     <td>{{user.subscriptionType}}</td>
                     <td>{{user.expiredDate}}</td>
                     <td style="text-align: center">
-                      <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-default" ng-click="setSelectedAccount(user.phoneNumber)">
+                      <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-disable" ng-show="{{!user.isDisable}}" ng-click="setSelectedAccount(user.phoneNumber)">
                         <i class="fas fa-trash"></i>
+                      </button>
+
+                      <button style="align-self: center" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-activate" ng-show="{{user.isDisable}}" ng-click="setSelectedAccount(user.phoneNumber)">
+                        <i class="fas fa-power-off"></i>
                       </button>
                     </td>
                   </tr>
@@ -227,7 +262,7 @@
       <!-- /.container-fluid -->
       
       <!-- /.modal -->
-      <div class="modal fade" id="modal-default">
+      <div class="modal fade" id="modal-disable">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -249,6 +284,128 @@
         <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
+
+      <div class="modal fade" id="modal-activate">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Confirm Dialog</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="text-align: center">
+              <p>Are you sure you want re-activate this account?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" ng-click="activate()">Confirm</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+      <div class="modal fade" id="modal-details">
+        <div class="modal-dialog" style="max-width: 45%;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Account Details</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="card-body">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Name:</label>
+                <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.name}}</label>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Phone Number:</label>
+                <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.phoneNumber}}</label>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Email:</label>
+                <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.email}}</label>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Subscription:</label>
+                <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.subscriptionType}}</label>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Expired Date:</label>
+                <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.expiredDate}}</label>
+              </div>
+
+              <ul style="list-style-type:none">
+                <li class="caret">
+                  <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Children:</label>
+
+                  <ul class="nested" style="list-style: decimal">
+                    <li ng-repeat="child in children">
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Child Name:</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{child.name}}</label>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Nick Name:</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{child.nickName}}</label>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Gender:</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{child.gender}}</label>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Year of Birth:</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{child.yob}}</label>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+
+              <ul style="list-style-type:none">
+                <li class="caret">
+                  <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Collaborator(s):</label>
+
+                  <ul class="nested" style="list-style: decimal">
+                    <li ng-repeat="collaborator in collaborators">
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Name:</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{collaborator.name}}</label>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Phone Number:</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{collaborator.phoneNumber}}</label>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Email:</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{collaborator.email}}</label>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Gender:</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{collaborator.gender}}</label>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+
+            </div>
+            
+            <div class="modal-footer justify-content-center">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
     </section>
     <!-- /.content -->
   </div>
@@ -297,5 +454,17 @@
 <script src="petitehero/js/constants.js"></script>
 <script src="petitehero/js/common.js"></script>
 <script src="petitehero/js/parents.js"></script>
+
+<script>
+  var toggler = document.getElementsByClassName("caret");
+  var i;
+  
+  for (i = 0; i < toggler.length; i++) {
+    toggler[i].addEventListener("click", function() {
+      this.parentElement.querySelector(".nested").classList.toggle("active");
+      this.classList.toggle("caret-down");
+    });
+  }
+</script>
 </body>
 </html>

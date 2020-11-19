@@ -57,8 +57,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index.html" class="brand-link">
-      <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Petite Hero</span>
+      <img src="petitehero/img/logo.png" alt="Petite Hero Logo" class="brand-image img-circle elevation-3">
+      <span class="brand-text font-weight-light" style="color: #fff;">Petite Hero</span>
     </a>
 
     <!-- Sidebar -->
@@ -66,7 +66,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="info">
-          <a href="#" class="d-block">Admin Username</a>
+          <a href="#" class="font-weight-light" style="font-size: large;">Dashboard</a>
         </div>  
       </div>
 
@@ -183,10 +183,11 @@
                   <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Max Children</th>
-                    <th>Max Collaborator</th>
+                    <th>Children</th>
+                    <th>Collaborators</th>
                     <th>Price</th>
                     <th>Duration</th>
+                    <th>Applied From</th>
                     <th>Description</th>
                     <th>Action</th>
                   </tr>
@@ -198,9 +199,13 @@
                     <td>{{record.maxCollaborator}}</td>
                     <td>{{record.price}} <small>vnđ</small></td>
                     <td>{{record.durationDay}} <small>days</small></td>
+                    <td>{{record.appliedDate}}</td>
                     <td>{{record.description}}</td>
                     <td style="text-align: center">
-                      <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-disable" ng-click="setSelectedRecord(record.subscriptionTypeId)">
+                      <!-- <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-disable" ng-click="setSelectedRecord(record.subscriptionTypeId)">
+                        <i class="fas fa-trash"></i>
+                      </button> -->
+                      <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-replace" ng-click="getReplacePacks(record.subscriptionTypeId)">
                         <i class="fas fa-trash"></i>
                       </button>
                     </td>
@@ -209,10 +214,11 @@
                   <tfoot>
                   <tr>
                     <th>Name</th>
-                    <th>Max Children</th>
-                    <th>Max Collaborator</th>
+                    <th>Children</th>
+                    <th>Collaborators</th>
                     <th>Price</th>
                     <th>Duration</th>
+                    <th>Applied From</th>
                     <th>Description</th>
                     <th>Action</th>
                   </tr>
@@ -230,6 +236,64 @@
       <!-- /.container-fluid -->
       
       <!-- /.modal -->
+      <div class="modal fade" id="modal-replace">
+        <div class="modal-dialog" style="max-width: 75%;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Choose A Replacement To Users For Deleted Pack</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="card-body">
+              <table class="table table-bordered table-striped" >
+                <thead>
+                <tr ng-show="replacePacks.length > 0">
+                  <th>Name</th>
+                  <th>Children</th>
+                  <th>Collaborators</th>
+                  <th>Price</th>
+                  <th>Duration</th>
+                  <th>Applied From</th>
+                  <!-- <th>Description</th> -->
+                  <th>Choose</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="record in replacePacks" ng-model="records">
+                  <td>{{record.name}}</td>
+                  <td>{{record.maxChildren}}</td>
+                  <td>{{record.maxCollaborator}}</td>
+                  <td>{{record.price}} <small>vnđ</small></td>
+                  <td>{{record.durationDay}} <small>days</small></td>
+                  <td>{{record.appliedDate}}</td>
+                  <!-- <td>{{record.description}}</td> -->
+                  <td style="text-align: center">
+                    <button style="align-self: center" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-disable" ng-click="setReplacePack(record.subscriptionTypeId)">
+                      <i class="fas fa-check-circle"></i>
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <div class="modal-body" style="text-align: center" ng-show="!replacePacks.length > 0">
+                <p>Found no suitable pack for replacement, please create one!</p>
+              </div>
+            </div>
+            
+            
+            <div class="modal-footer justify-content-center">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+      <!-- /.modal -->
       <div class="modal fade" id="modal-disable">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -240,16 +304,14 @@
               </button>
             </div>
             <div class="modal-body" style="text-align: center">
-              <p>Are you sure you want to disable this pack?</p>
+              <p>Are you sure you want to proceed?</p>
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
               <button type="button" class="btn btn-primary" ng-click="disable()">Confirm</button>
             </div>
           </div>
-          <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
 
@@ -317,8 +379,6 @@
         <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
-
-      
 
     </section>
     <!-- /.content -->

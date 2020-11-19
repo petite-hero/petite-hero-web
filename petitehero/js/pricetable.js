@@ -2,7 +2,9 @@ var app = angular.module('pricetab', []);
 
 app.controller('pricetabController', function($scope, $window) {
     $scope.records = [];
+    $scope.replacePacks = [];
     $scope.currentSelectedRecord = "";
+    $scope.replacePack = "";
 
     fetch(URL + "subscription/type/list", {
         method: 'GET',
@@ -14,6 +16,9 @@ app.controller('pricetabController', function($scope, $window) {
     .then(response => response.json())
     .then(result => {
         if (result.code == 200) {
+            angular.forEach(result.data, function(record){
+                record.appliedDate = dateToYMD(new Date(record.appliedDate));
+            });
             $scope.$apply(function() {
                 $scope.records = result.data;
             });
@@ -34,7 +39,8 @@ app.controller('pricetabController', function($scope, $window) {
 
     $scope.disable = async function() {
         console.log("Disable: " + $scope.currentSelectedRecord);
-        await fetch(URL + "subscription/type/" + $scope.currentSelectedRecord, {
+        console.log("Replace with: " + $scope.replacePack);
+        await fetch(URL + "subscription/type/" + $scope.currentSelectedRecord + "/" + $scope.replacePack, {
             method: 'DELETE',
             headers: {
                 Accept: "application/json",
@@ -43,8 +49,9 @@ app.controller('pricetabController', function($scope, $window) {
         })
         .then(response => response.json())
         .then(result => {
-            if (result.code == 200) {
-                $scope.currentSelectedAccount = "";
+            if (result.code == 200 && result.data.status == 'DELETED') {
+                $scope.currentSelectedRecord = "";
+                $scope.replacePack = "";
                 $window.location.reload();
             } else {
                 console.log(result.msg);
@@ -87,10 +94,45 @@ app.controller('pricetabController', function($scope, $window) {
         });
     };
 
-    $scope.setSelectedRecord = function(subId) {
-        $scope.currentSelectedRecord = subId;
-        console.log("Set to: " + $scope.currentSelectedRecord);
+    $scope.getReplacePacks = async function(subscriptionId) {
+        $scope.currentSelectedRecord = subscriptionId;
+
+        fetch(URL + "subscription/type/replacement/" + subscriptionId, {
+            method: 'GET',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.code == 200) {
+                angular.forEach(result.data.subscriptionTypeReplace, function(record){
+                    record.appliedDate = dateToYMD(new Date(record.appliedDate));
+                });
+                $scope.$apply(function() {
+                    $scope.replacePacks = result.data.subscriptionTypeReplace;
+                });
+                console.log($scope.replacePacks);
+            } else {
+                console.log(result.msg);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
     };
+
+    $scope.setReplacePack = function(subId) {
+        $scope.replacePack = subId;
+    };
+
+    function dateToYMD(date) {
+        var d = date.getDate();
+        var m = date.getMonth() + 1; //Month from 0 to 11
+        var y = date.getFullYear();
+        return '' + y + '/' + (m<=9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d);
+    }
 
     // $scope.reloadPage = function(){$window.location.reload()};
 });

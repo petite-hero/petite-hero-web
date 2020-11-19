@@ -1,7 +1,10 @@
 var app = angular.module('parents', []);
 
 app.controller('parentsController', function($scope, $window) {
+    $scope.user;
     $scope.users = [];
+    $scope.children = [];
+    $scope.collaborators = [];
     $scope.currentSelectedAccount = "";
 
     fetch(URL + "account/list", {
@@ -38,7 +41,7 @@ app.controller('parentsController', function($scope, $window) {
 
     $scope.disable = async function() {
         console.log("Disable: " + $scope.currentSelectedAccount);
-        await fetch(URL + "parent/" + $scope.currentSelectedAccount, {
+        await fetch(URL + "parent/" + $scope.currentSelectedAccount + "?isDisable=true", {
             method: 'DELETE',
             headers: {
                 Accept: "application/json",
@@ -50,6 +53,58 @@ app.controller('parentsController', function($scope, $window) {
             if (result.code == 200) {
                 $scope.currentSelectedAccount = "";
                 $window.location.reload();
+            } else {
+                console.log(result.msg);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    };
+
+    $scope.activate = async function() {
+        console.log("Activate: " + $scope.currentSelectedAccount);
+        await fetch(URL + "parent/" + $scope.currentSelectedAccount + "?isDisable=false", {
+            method: 'DELETE',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              }
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.code == 200) {
+                $scope.currentSelectedAccount = "";
+                $window.location.reload();
+            } else {
+                console.log(result.msg);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    };
+
+    $scope.getDetails = async function(phoneNumber) {
+        console.log("Details: " + phoneNumber);
+        await fetch(URL + "account/" + phoneNumber, {
+            method: 'GET',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              }
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.code == 200) {
+                console.log(result.data);
+                $scope.$apply(function() {
+                    $scope.user = result.data;
+                    $scope.user.expiredDate = dateToYMD(new Date($scope.user.expiredDate));
+                    $scope.children = result.data.childInformationList;
+                    $scope.collaborators = result.data.collaboratorInformationList;
+                });
+
             } else {
                 console.log(result.msg);
             }
