@@ -1,6 +1,6 @@
 var app = angular.module('pricetab', []);
 
-app.controller('pricetabController', function($scope, $window) {
+app.controller('pricetabController', function($scope, $window, $timeout) {
     $scope.records = [];
     $scope.replacePacks = [];
     $scope.currentSelectedRecord = "";
@@ -24,11 +24,19 @@ app.controller('pricetabController', function($scope, $window) {
             });
             console.log("Initialize data: ");
             console.log($scope.records);
-
+            
+            const preFilter = new URLSearchParams(window.location.search).get('filter');
+            
             $("#pricetabTable").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "print", "colvis"]
+                "responsive": true, "lengthChange": true, "autoWidth": false, "bInfo": false, "bPaginate": false,
+                "buttons": ["colvis"]
             }).buttons().container().appendTo('#pricetabTable_wrapper .col-md-6:eq(0)');
+            $('.dataTables_filter input').attr('maxLength', 30)
+            $.fn.dataTable.ext.errMode = 'none';
+
+            if (preFilter !== null) {
+                $("#pricetabTable").DataTable().search(preFilter).draw();
+            }            
         } else {
             console.log(result.msg);
         }
@@ -50,9 +58,25 @@ app.controller('pricetabController', function($scope, $window) {
         .then(response => response.json())
         .then(result => {
             if (result.code == 200 && result.data.status == 'DELETED') {
+                $('#modal-disable').modal('toggle');
+                $('#modal-replace').modal('toggle');
+                let deletedRecord = $scope.currentSelectedRecord;
+                
+                $timeout(function () {
+                    for (var i = 0; i < $scope.records.length; i++) {
+                        if ($scope.records[i].subscriptionTypeId === deletedRecord) {
+                            $scope.$apply(function() {
+                                $scope.records.splice(i, 1);
+                                console.log("Done deleting");
+                            });
+                        }
+                    }
+                });
                 $scope.currentSelectedRecord = "";
                 $scope.replacePack = "";
-                $window.location.reload();
+                $scope.replacePacks = [];
+
+                // $window.location.reload();
             } else {
                 console.log(result.msg);
             }
@@ -84,7 +108,15 @@ app.controller('pricetabController', function($scope, $window) {
         .then(response => response.json())
         .then(result => {
             if (result.code == 200) {
-                $window.location.reload();
+                $('#modal-add').modal('toggle');
+                $timeout(function () {
+                    $scope.$apply(function() {
+                        request.subscriptionTypeId = result.data.subscriptionTypeId;
+                        request.appliedDate = dateToYMD(new Date());
+                        $scope.records.push(request);
+                    })
+                });
+                // $window.location.reload();
             } else {
                 console.log(result.msg);
             }
@@ -114,6 +146,12 @@ app.controller('pricetabController', function($scope, $window) {
                     $scope.replacePacks = result.data.subscriptionTypeReplace;
                 });
                 console.log($scope.replacePacks);
+                
+                $("#replacebTable").DataTable({
+                    "responsive": true, "lengthChange": false, "autoWidth": false, "bdestroy": true, "bInfo" : false, "bPaginate": false
+                }).buttons().container().appendTo('#replacebTable_wrapper .col-md-6:eq(0)');
+                $('.dataTables_filter input').attr('maxLength', 30);
+                $.fn.dataTable.ext.errMode = 'none';
             } else {
                 console.log(result.msg);
             }
@@ -132,6 +170,23 @@ app.controller('pricetabController', function($scope, $window) {
         var m = date.getMonth() + 1; //Month from 0 to 11
         var y = date.getFullYear();
         return '' + y + '/' + (m<=9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d);
+    }
+
+    $scope.removeRecord = function(record) {
+        $timeout(function () {
+            $scope.records.splice($scope.records.indexOf(record), 1);
+        });
+
+        // $("#replacebTable").DataTable().destroy();
+        // $("#replacebTable").empty();
+        // $("#pricetabTable").DataTable().clear().destroy();
+
+        // $("#pricetabTable").DataTable({
+        //     "responsive": true, "lengthChange": true, "autoWidth": false, "bInfo": false, 
+        //     "buttons": ["colvis"]
+        // }).buttons().container().appendTo('#pricetabTable_wrapper .col-md-6:eq(0)');
+        // $('.dataTables_filter input').attr('maxLength', 30)
+        // $.fn.dataTable.ext.errMode = 'none';
     }
 
     // $scope.reloadPage = function(){$window.location.reload()};

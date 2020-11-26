@@ -23,10 +23,17 @@ app.controller('transactionsController', function($scope, $window) {
             console.log("Initialize data: ");
             console.log($scope.transactions);
 
+            const preFilter = new URLSearchParams(window.location.search).get('filter');
+
             $("#transactionsTable").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "print", "colvis"]
+                "responsive": true, "lengthChange": true, "autoWidth": false,
+                "buttons": ["colvis"]
             }).buttons().container().appendTo('#transactionsTable_wrapper .col-md-6:eq(0)');
+            $('.dataTables_filter input').attr('maxLength', 30)
+
+            if (preFilter !== null) {
+                $("#transactionsTable").DataTable().search(preFilter).draw();
+            }
         } else {
             console.log(result.msg);
         }

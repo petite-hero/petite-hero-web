@@ -113,7 +113,7 @@
           <li class="nav-item">
             <a href="pricetable.html" class="nav-link">
               <i class="nav-icon fas fa-money-check-alt"></i>
-              <p>Price Table</p>
+              <p>Pricing</p>
             </a>
           </li>
           <li class="nav-item">
@@ -129,7 +129,7 @@
           <li class="nav-item">
             <a href="configuring.html" class="nav-link">
               <i class="nav-icon fas fa-cogs"></i>
-              <p>Configuring</p>
+              <p>Configurations</p>
             </a>
           </li>
           <!-- System left navbar ends here -->
@@ -154,13 +154,13 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="background-image: url(petitehero/img/background.png);">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Transactions</h1>
+            <h1>Transactions Managing</h1>
           </div>
          
         </div>
@@ -174,14 +174,13 @@
           <div class="col-12">
 
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Data Table</h3>
-              </div>
+              
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="transactionsTable" class="table table-bordered table-striped" ng-app="transactions" ng-controller="transactionsController">
                   <thead>
                   <tr>
+                    <th>No.</th>
                     <th>Phone Number</th>
                     <th>Pack</th>
                     <th>Amount</th>
@@ -193,6 +192,7 @@
                   </thead>
                   <tbody>
                   <tr ng-repeat="transaction in transactions" ng-model="transactions">
+                    <td>{{$index + 1}}</td>
                     <td>{{transaction.parentInformation.phoneNumber}}</td>
                     <td>{{transaction.content}}</td>
                     <td>{{transaction.amount}} <small>vnđ</small></td>
@@ -204,6 +204,7 @@
                   </tbody>
                   <tfoot>
                   <tr>
+                    <th>No.</th>
                     <th>Phone Number</th>
                     <th>Pack</th>
                     <th>Amount</th>

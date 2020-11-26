@@ -1,6 +1,6 @@
 var app = angular.module('parents', []);
 
-app.controller('parentsController', function($scope, $window) {
+app.controller('parentsController', function($scope, $window, $timeout) {
     $scope.user;
     $scope.users = [];
     $scope.children = [];
@@ -27,10 +27,14 @@ app.controller('parentsController', function($scope, $window) {
             console.log("Initialize data: ");
             console.log($scope.users);
 
+            
+
             $("#parentsTable").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "print", "colvis"]
+                "responsive": true, "lengthChange": true, "autoWidth": false,
+                "buttons": ["colvis"]
             }).buttons().container().appendTo('#parentsTable_wrapper .col-md-6:eq(0)');
+            $('.dataTables_filter input').attr('maxLength', 30)
+            // $("#parentsTable").DataTable().search('value something').draw();
         } else {
             console.log(result.msg);
         }
@@ -51,8 +55,10 @@ app.controller('parentsController', function($scope, $window) {
         .then(response => response.json())
         .then(result => {
             if (result.code == 200) {
+                $scope.changeStatus($scope.currentSelectedAccount, true);
                 $scope.currentSelectedAccount = "";
-                $window.location.reload();
+                $('#modal-disable').modal('toggle');
+                // $window.location.reload();
             } else {
                 console.log(result.msg);
             }
@@ -74,8 +80,10 @@ app.controller('parentsController', function($scope, $window) {
         .then(response => response.json())
         .then(result => {
             if (result.code == 200) {
+                $scope.changeStatus($scope.currentSelectedAccount, false);
                 $scope.currentSelectedAccount = "";
-                $window.location.reload();
+                $('#modal-activate').modal('toggle');
+                // $window.location.reload();
             } else {
                 console.log(result.msg);
             }
@@ -124,6 +132,28 @@ app.controller('parentsController', function($scope, $window) {
         var m = date.getMonth() + 1; //Month from 0 to 11
         var y = date.getFullYear();
         return '' + y + '/' + (m<=9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d);
+    }
+
+    $scope.changeStatus = function(phoneNumber, status) {
+        $timeout(function () {
+            for (var i = 0; i < $scope.users.length; i++) {
+                if ($scope.users[i].phoneNumber == phoneNumber) {
+                    $scope.$apply(function() {
+                        $scope.users[i].isDisable = status;
+                    });
+                }
+            }
+        });
+    }
+
+    $scope.openSubscription = function(subscriptionType) {
+       console.log(subscriptionType);
+       window.location.href = "pricetable.html?filter=" + subscriptionType;
+    }
+
+    $scope.openTransaction = function(phoneNumber) {
+       console.log(phoneNumber);
+       window.location.href = "transactions.html?filter=" + phoneNumber;
     }
 
     // $scope.reloadPage = function(){$window.location.reload()};

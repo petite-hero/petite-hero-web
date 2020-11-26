@@ -113,7 +113,7 @@
           <li class="nav-item">
             <a href="pricetable.html" class="nav-link">
               <i class="nav-icon fas fa-money-check-alt"></i>
-              <p>Price Table</p>
+              <p>Pricing</p>
             </a>
           </li>
           <li class="nav-item">
@@ -129,7 +129,7 @@
           <li class="nav-item">
             <a href="configuring.html" class="nav-link">
               <i class="nav-icon fas fa-cogs"></i>
-              <p>Configuring</p>
+              <p>Configurations</p>
             </a>
           </li>
           <!-- System left navbar ends here -->
@@ -154,15 +154,14 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="background-image: url(petitehero/img/background.png)">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Configuring</h1>
+            <h1></h1>
           </div>
-         
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -173,8 +172,8 @@
       <div class="modal fade" id="modal-update">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Confirm Dialog</h4>
+            <div class="modal-header" style="background-color: #00ADE8">
+              <h4 class="modal-title" style="color: #fff">Confirm Dialog</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -195,79 +194,65 @@
 
       <div class="card card-info" style="width: 100%">
         <div class="card-header">
-          <h3 class="card-title">System Configuring</h3>
+          <h3 class="card-title">Configurations</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
         <form class="form-horizontal" onsubmit="openModal()">
           <div class="card-body">
-            <div class="form-group row d-flex justify-content-center">
-              <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">Safe Zone Server Scan Time</label>
-              <div class="col-sm-3">
-                <input type="text" class="form-control" placeholder="Time (hh:mm:ss)..." id="safezone" pattern="^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$" title="Please follow format HH:MM:ss" required>
+            <div class="form-group row d-flex justify-content-start">
+              <label class="col-sm-3 col-form-label" style="font-size: large">Safe Zone Server Scan Time</label>
+              <div class="col-sm-1">
+                <input type="text" class="form-control" placeholder="hh:mm:ss" id="safezone" pattern="^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$" title="Please follow format HH:MM:ss" required>
+              </div>
+              <label class="col-sm-3 col-form-label" style="font-size: large; margin-left: 200px">Task Server Scan Time</label>
+              <div class="col-sm-1">
+                <input type="text" class="form-control" placeholder="hh:mm:ss" id="task" pattern="^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$" title="Please follow format HH:MM:ss" required>
               </div>
             </div>
 
-            <div class="form-group row d-flex justify-content-center">
-              <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">Task Server Scan Time</label>
-              <div class="col-sm-3">
-                <input type="text" class="form-control" placeholder="Time (hh:mm:ss)..." id="task" pattern="^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$" title="Please follow format HH:MM:ss" required>
+            <div class="form-group row d-flex justify-content-start">
+              <label class="col-sm-3 col-form-label" style="font-size: large">Quest Server Scan Time</label>
+              <div class="col-sm-1">
+                <input type="text" class="form-control" placeholder="hh:mm:ss" id="quest" pattern="^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$" title="Please follow format HH:MM:ss" required>
+              </div>
+              <label class="col-sm-3 col-form-label" style="font-size: large; margin-left: 200px">Notify Expired Subscription Time</label>
+              <div class="col-sm-1">
+                <input type="text" class="form-control" placeholder="hh:mm:ss" id="expiredTime" pattern="^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$" title="Please follow format HH:MM:ss" required>
               </div>
             </div>
 
-            <div class="form-group row d-flex justify-content-center">
-              <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">Quest Server Scan Time</label>
-              <div class="col-sm-3">
-                <input type="text" class="form-control" placeholder="Time (hh:mm:ss)..." id="quest" pattern="^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$" title="Please follow format HH:MM:ss" required>
+
+            <div class="form-group row d-flex justify-content-start">
+              <label class="col-sm-3 col-form-label" style="font-size: large">Notify Expired Subscription Day(s)</label>
+              <div class="col-sm-1">
+                <input type="number" class="form-control" placeholder="days" id="expiredDay" required>
+              </div>
+              <label class="col-sm-3 col-form-label" style="font-size: large; margin-left: 200px">Smartwatch Report Delay</label>
+              <div class="col-sm-1">
+                <input type="number" min="1" class="form-control" placeholder="milli" id="delay" required>
               </div>
             </div>
 
-            <div class="form-group row d-flex justify-content-center">
-              <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">Notify Expired Subscription Time</label>
-              <div class="col-sm-3">
-                <input type="text" class="form-control" placeholder="Time (hh:mm:ss)..." id="expiredTime" pattern="^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$" title="Please follow format HH:MM:ss" required>
+            <div class="form-group row d-flex justify-content-start">
+              <label class="col-sm-3 col-form-label" style="font-size: large">Smartwatch Outer Radius</label>
+              <div class="col-sm-1">
+                <input type="number" min="1" class="form-control" placeholder="meters" id="radius" required>
+              </div>
+              <label class="col-sm-3 col-form-label" style="font-size: large; margin-left: 200px">Total Housework Suggest Time</label>
+              <div class="col-sm-1">
+                <input type="number" min="1" class="form-control" placeholder="hours" id="housework" required>
               </div>
             </div>
 
-            <div class="form-group row d-flex justify-content-center">
-              <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">Notify Expired Subscription Day(s)</label>
-              <div class="col-sm-3">
-                <input type="number" class="form-control" placeholder="Day(s)" id="expiredDay" required>
+            <div class="form-group row d-flex justify-content-start">
+              <label class="col-sm-3 col-form-label" style="font-size: large">Toal Education Suggest Time</label>
+              <div class="col-sm-1">
+                <input type="number" min="1" class="form-control" placeholder="hours" id="education" required>
               </div>
-            </div>
-
-            <div class="form-group row d-flex justify-content-center">
-              <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">Smartwatch Report Delay</label>
-              <div class="col-sm-3">
-                <input type="number" min="1" class="form-control" placeholder="Report delay (ms)..." id="delay" required>
-              </div>
-            </div>
-
-            <div class="form-group row d-flex justify-content-center">
-              <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">Smartwatch Outer Radius</label>
-              <div class="col-sm-3">
-                <input type="number" min="1" class="form-control" placeholder="Outer radius (m)..." id="radius" required>
-              </div>
-            </div>
-
-            <div class="form-group row d-flex justify-content-center">
-              <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">Total Housework Suggest Time</label>
-              <div class="col-sm-3">
-                <input type="number" min="1" class="form-control" placeholder="Total hours..." id="housework" required>
-              </div>
-            </div>
-
-            <div class="form-group row d-flex justify-content-center">
-              <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">Toal Education Suggest Time</label>
-              <div class="col-sm-3">
-                <input type="number" min="1" class="form-control" placeholder="Total hours..." id="education" required>
-              </div>
-            </div>
-
-            <div class="form-group row d-flex justify-content-center">
-              <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">Total Skill Suggest Time</label>
-              <div class="col-sm-3">
-                <input type="number" min="1" class="form-control" placeholder="Total hours..." id="skill" required>
+              <label class="col-sm-3 col-form-label" style="font-size: large; margin-left: 200px">Total Skill Suggest Time</label>
+              <div class="col-sm-1">
+                <input type="number" min="1" class="form-control" placeholder="hours" id="skill" required>
               </div>
             </div>
 

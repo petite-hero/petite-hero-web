@@ -113,7 +113,7 @@
           <li class="nav-item">
             <a href="pricetable.html" class="nav-link">
               <i class="nav-icon fas fa-money-check-alt"></i>
-              <p>Price Table</p>
+              <p>Pricing</p>
             </a>
           </li>
           <li class="nav-item">
@@ -129,7 +129,7 @@
           <li class="nav-item">
             <a href="configuring.html" class="nav-link">
               <i class="nav-icon fas fa-cogs"></i>
-              <p>Configuring</p>
+              <p>Configurations</p>
             </a>
           </li>
           <!-- System left navbar ends here -->
@@ -154,13 +154,13 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="background-image: url(petitehero/img/background.png)">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Price Table</h1>
+            <h1>Pricing Mangaging</h1>
           </div>
          
         </div>
@@ -174,14 +174,13 @@
           <div class="col-12">
 
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Data Table</h3>
-              </div>
+              
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="pricetabTable" class="table table-bordered table-striped" >
                   <thead>
                   <tr>
+                    <td>No.</td>
                     <th>Name</th>
                     <th>Children</th>
                     <th>Collaborators</th>
@@ -193,7 +192,8 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr ng-repeat="record in records" ng-model="records">
+                  <tr ng-repeat="record in records track by $index" ng-model="records">
+                    <td>{{$index + 1}}</td>
                     <td>{{record.name}}</td>
                     <td>{{record.maxChildren}}</td>
                     <td>{{record.maxCollaborator}}</td>
@@ -208,11 +208,15 @@
                       <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-replace" ng-click="getReplacePacks(record.subscriptionTypeId)">
                         <i class="fas fa-trash"></i>
                       </button>
+                      <!-- <button style="align-self: center" type="button" class="btn btn-danger" ng-click="removeRecord(record)">
+                        <i class="fas fa-trash"></i>
+                      </button> -->
                     </td>
                   </tr>
                   </tbody>
                   <tfoot>
                   <tr>
+                    <td>No.</td>
                     <th>Name</th>
                     <th>Children</th>
                     <th>Collaborators</th>
@@ -239,17 +243,18 @@
       <div class="modal fade" id="modal-replace">
         <div class="modal-dialog" style="max-width: 75%;">
           <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Choose A Replacement To Users For Deleted Pack</h4>
+            <div class="modal-header" style="background-color: #00ADE8">
+              <h4 class="modal-title" style="color: #fff">Choose A Replacement</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
 
             <div class="card-body">
-              <table class="table table-bordered table-striped" >
+              <table id="replacebTable" class="table table-bordered table-striped">
                 <thead>
                 <tr ng-show="replacePacks.length > 0">
+                  <td>No.</td>
                   <th>Name</th>
                   <th>Children</th>
                   <th>Collaborators</th>
@@ -262,6 +267,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="record in replacePacks" ng-model="records">
+                  <td>{{$index + 1}}</td>
                   <td>{{record.name}}</td>
                   <td>{{record.maxChildren}}</td>
                   <td>{{record.maxCollaborator}}</td>
@@ -297,8 +303,8 @@
       <div class="modal fade" id="modal-disable">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Confirm Dialog</h4>
+            <div class="modal-header" style="background-color: #00ADE8">
+              <h4 class="modal-title" style="color: #fff">Confirm Dialog</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

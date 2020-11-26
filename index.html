@@ -144,7 +144,7 @@
           <li class="nav-item">
             <a href="pricetable.html" class="nav-link">
               <i class="nav-icon fas fa-money-check-alt"></i>
-              <p>Price Table</p>
+              <p>Pricing</p>
             </a>
           </li>
           <li class="nav-item">
@@ -160,7 +160,7 @@
           <li class="nav-item">
             <a href="configuring.html" class="nav-link">
               <i class="nav-icon fas fa-cogs"></i>
-              <p>Configuring</p>
+              <p>Configurations</p>
             </a>
           </li>
           <!-- System left navbar ends here -->
@@ -185,13 +185,13 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="background-image: url(petitehero/img/background.png)">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Parents</h1>
+            <h1>Parent Account Managing</h1>
           </div>
          
         </div>
@@ -205,14 +205,13 @@
           <div class="col-12">
 
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Data Table</h3>
-              </div>
+              
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="parentsTable" class="table table-bordered table-striped">
                   <thead>
                   <tr>
+                    <th>No.</th>
                     <th>Name</th>
                     <th>Phone Number</th>
                     <th>Email</th>
@@ -222,25 +221,31 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr ng-repeat="user in users" ng-model="users">
-                    <td ng-click="getDetails(user.phoneNumber)"><a href="#" style="color: black" data-toggle="modal" data-target="#modal-details">{{user.name}}</a></td>
+                  <tr ng-repeat="user in users track by $index" ng-model="users">
+                    <td>{{$index + 1}}</td>
+                    <td ng-click="getDetails(user.phoneNumber)"><a href="#" data-toggle="modal" data-target="#modal-details">{{user.name}}</a></td>
                     <td>{{user.phoneNumber}}</td>
                     <td>{{user.email}}</td>
                     <td>{{user.subscriptionType}}</td>
                     <td>{{user.expiredDate}}</td>
                     <td style="text-align: center">
-                      <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-disable" ng-show="{{!user.isDisable}}" ng-click="setSelectedAccount(user.phoneNumber)">
+                      <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-disable" ng-show="!user.isDisable" ng-click="setSelectedAccount(user.phoneNumber)">
                         <i class="fas fa-trash"></i>
                       </button>
 
-                      <button style="align-self: center" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-activate" ng-show="{{user.isDisable}}" ng-click="setSelectedAccount(user.phoneNumber)">
+                      <button style="align-self: center" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-activate" ng-show="user.isDisable" ng-click="setSelectedAccount(user.phoneNumber)">
                         <i class="fas fa-power-off"></i>
                       </button>
+
+                      <!-- <button style="align-self: center" type="button" class="btn btn-danger" ng-click="changeStatus(user, false)">
+                        <i class="fas fa-power-off"></i>
+                      </button> -->
                     </td>
                   </tr>
                   </tbody>
                   <tfoot>
                   <tr>
+                    <th>No.</th>
                     <th>Name</th>
                     <th>Phone Number</th>
                     <th>Email</th>
@@ -265,8 +270,8 @@
       <div class="modal fade" id="modal-disable">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Confirm Dialog</h4>
+            <div class="modal-header" style="background-color: #00ADE8">
+              <h4 class="modal-title" style="color: #fff">Confirm Dialog</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -288,8 +293,8 @@
       <div class="modal fade" id="modal-activate">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Confirm Dialog</h4>
+            <div class="modal-header" style="background-color: #00ADE8">
+              <h4 class="modal-title" style="color: #fff">Confirm Dialog</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -311,8 +316,8 @@
       <div class="modal fade" id="modal-details">
         <div class="modal-dialog" style="max-width: 45%;">
           <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Account Details</h4>
+            <div class="modal-header" style="background-color: #00ADE8">
+              <h4 class="modal-title" style="color: #fff">Account Details</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -320,29 +325,35 @@
 
             <div class="card-body">
               <div class="form-group row">
-                <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Name:</label>
+                <label class="col-sm-4 col-form-label" style="font-size: large">Name:</label>
                 <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.name}}</label>
               </div>
               <div class="form-group row">
-                <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Phone Number:</label>
+                <label class="col-sm-4 col-form-label" style="font-size: large">Phone Number:</label>
                 <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.phoneNumber}}</label>
               </div>
               <div class="form-group row">
-                <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Email:</label>
+                <label class="col-sm-4 col-form-label" style="font-size: large">Email:</label>
                 <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.email}}</label>
               </div>
               <div class="form-group row">
-                <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Subscription:</label>
+                <label class="col-sm-4 col-form-label" style="font-size: large">Subscription:</label>
                 <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.subscriptionType}}</label>
               </div>
               <div class="form-group row">
-                <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Expired Date:</label>
+                <label class="col-sm-4 col-form-label" style="font-size: large">Expired Date:</label>
                 <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.expiredDate}}</label>
               </div>
 
-              <ul style="list-style-type:none">
+              <div class="form-group row" ng-show="user.maxChild == 0">
+                <label class="col-sm-4 col-form-label" style="font-size: large">Children:</label>
+                <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.maxChild}}</label>
+              </div>
+
+              <ul style="list-style-type:none"  ng-show="user.maxChild > 0">
                 <li class="caret">
-                  <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Children:</label>
+                  <label class="col-sm-4 col-form-label" style="font-size: large">Children:</label>
+                  <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.maxChild}}</label>
 
                   <ul class="nested" style="list-style: decimal">
                     <li ng-repeat="child in children">
@@ -367,9 +378,15 @@
                 </li>
               </ul>
 
-              <ul style="list-style-type:none">
+              <div class="form-group row" ng-show="user.maxCollaborator == 0">
+                <label class="col-sm-4 col-form-label" style="font-size: large">Collaborator(s):</label>
+                <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.maxCollaborator}}</label>
+              </div>
+              
+              <ul style="list-style-type:none" ng-show="user.maxCollaborator > 0">
                 <li class="caret">
-                  <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Collaborator(s):</label>
+                  <label class="col-sm-4 col-form-label" style="font-size: large">Collaborator(s):</label>
+                  <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{user.maxCollaborator}}</label>
 
                   <ul class="nested" style="list-style: decimal">
                     <li ng-repeat="collaborator in collaborators">
@@ -398,6 +415,8 @@
             
             <div class="modal-footer justify-content-center">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" ng-click="openTransaction(user.phoneNumber)">View User's Transaction</button>
+              <button type="button" class="btn btn-primary" ng-click="openSubscription(user.subscriptionType)">View User's Subscription Type</button>
             </div>
           </div>
           <!-- /.modal-content -->
