@@ -5,6 +5,7 @@ app.controller('pricetabController', function($scope, $window, $timeout) {
     $scope.replacePacks = [];
     $scope.currentSelectedRecord = "";
     $scope.replacePack = "";
+    $scope.noReplacePack = false;
 
     fetch(URL + "subscription/type/list", {
         method: 'GET',
@@ -72,6 +73,7 @@ app.controller('pricetabController', function($scope, $window, $timeout) {
                         }
                     }
                 });
+                $scope.noReplacePack = false;
                 $scope.currentSelectedRecord = "";
                 $scope.replacePack = "";
                 $scope.replacePacks = [];
@@ -139,13 +141,30 @@ app.controller('pricetabController', function($scope, $window, $timeout) {
         .then(response => response.json())
         .then(result => {
             if (result.code == 200) {
-                angular.forEach(result.data.subscriptionTypeReplace, function(record){
-                    record.appliedDate = dateToYMD(new Date(record.appliedDate));
-                });
-                $scope.$apply(function() {
-                    $scope.replacePacks = result.data.subscriptionTypeReplace;
-                });
-                console.log($scope.replacePacks);
+                if (result.data.subscriptionTypeReplace == null) {
+                    $scope.$apply(function() {
+                        $scope.replacePacks = $scope.records;
+                    });
+                    $scope.noReplacePack = true;
+                    $timeout(function () {
+                        for (var i = 0; i < $scope.replacePacks.length; i++) {
+                            if ($scope.replacePacks[i].subscriptionTypeId === subscriptionId) {
+                                $scope.$apply(function() {
+                                    $scope.replacePacks.splice(i, 1);
+                                });
+                            }
+                        }
+                    });
+                    console.log($scope.replacePacks);
+                } else if (result.data.subscriptionTypeReplace.length != 0) {
+                    angular.forEach(result.data.subscriptionTypeReplace, function(record){
+                        record.appliedDate = dateToYMD(new Date(record.appliedDate));
+                    });
+                    $scope.$apply(function() {
+                        $scope.replacePacks = result.data.subscriptionTypeReplace;
+                    });
+                    console.log($scope.replacePacks);
+                }
                 
                 $("#replacebTable").DataTable({
                     "responsive": true, "lengthChange": false, "autoWidth": false, "bdestroy": true, "bInfo" : false, "bPaginate": false
