@@ -15,7 +15,7 @@ async function login() {
     .then(result => {
         if (result.code == 200 && !result.data.jwt.isEmpty) {
             if (result.data.role == "Admin") {
-                window.location.href = "index.html";
+                window.location.href = "parents.html";
             } else {
                 $('#firstMsg').val("Your account cannot access");
                 $('#secondMsg').val("Please try a different account");

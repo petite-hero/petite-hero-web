@@ -143,7 +143,7 @@ app.controller('pricetabController', function($scope, $window, $timeout) {
             if (result.code == 200) {
                 if (result.data.subscriptionTypeReplace == null) {
                     $scope.$apply(function() {
-                        $scope.replacePacks = $scope.records;
+                        $scope.replacePacks = angular.copy($scope.records);
                     });
                     $scope.noReplacePack = true;
                     $timeout(function () {
@@ -208,6 +208,5 @@ app.controller('pricetabController', function($scope, $window, $timeout) {
         // $.fn.dataTable.ext.errMode = 'none';
     }
 
-    // $scope.reloadPage = function(){$window.location.reload()};
 });
 
