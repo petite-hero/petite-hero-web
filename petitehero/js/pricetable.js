@@ -18,7 +18,7 @@ app.controller('pricetabController', function($scope, $window, $timeout) {
     .then(result => {
         if (result.code == 200) {
             angular.forEach(result.data, function(record){
-                record.appliedDate = dateToYMD(new Date(record.appliedDate));
+                record.appliedDate = dateToDMY(new Date(record.appliedDate));
             });
             $scope.$apply(function() {
                 $scope.records = result.data;
@@ -114,7 +114,7 @@ app.controller('pricetabController', function($scope, $window, $timeout) {
                 $timeout(function () {
                     $scope.$apply(function() {
                         request.subscriptionTypeId = result.data.subscriptionTypeId;
-                        request.appliedDate = dateToYMD(new Date());
+                        request.appliedDate = dateToDMY(new Date());
                         $scope.records.push(request);
                     })
                 });
@@ -158,7 +158,7 @@ app.controller('pricetabController', function($scope, $window, $timeout) {
                     console.log($scope.replacePacks);
                 } else if (result.data.subscriptionTypeReplace.length != 0) {
                     angular.forEach(result.data.subscriptionTypeReplace, function(record){
-                        record.appliedDate = dateToYMD(new Date(record.appliedDate));
+                        record.appliedDate = dateToDMY(new Date(record.appliedDate));
                     });
                     $scope.$apply(function() {
                         $scope.replacePacks = result.data.subscriptionTypeReplace;
@@ -184,11 +184,12 @@ app.controller('pricetabController', function($scope, $window, $timeout) {
         $scope.replacePack = subId;
     };
 
-    function dateToYMD(date) {
+    function dateToDMY(date) {
         var d = date.getDate();
         var m = date.getMonth() + 1; //Month from 0 to 11
         var y = date.getFullYear();
-        return '' + y + '/' + (m<=9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d);
+        // return '' + y + '/' + (m<=9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d);
+        return '' + (d <= 9 ? '0' + d : d) + '/' + (m<=9 ? '0' + m : m) + '/' + y;
     }
 
     $scope.removeRecord = function(record) {

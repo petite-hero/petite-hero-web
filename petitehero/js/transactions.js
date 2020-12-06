@@ -15,7 +15,7 @@ app.controller('transactionsController', function($scope, $window) {
     .then(result => {
         if (result.code == 200) {
             angular.forEach(result.data, function(transaction){
-                transaction.date = dateToYMDHM(new Date(transaction.date));
+                transaction.date = dateToDMY(new Date(transaction.date));
             });
             $scope.$apply(function() {
                 $scope.transactions = result.data;
@@ -42,16 +42,17 @@ app.controller('transactionsController', function($scope, $window) {
         console.log(error);
     });
 
-    function dateToYMDHM(date) {
+    function dateToDMY(date) {
         var d = date.getDate();
         var m = date.getMonth() + 1; //Month from 0 to 11
         var y = date.getFullYear();
-        var h = date.getHours();
-        var mm = date.getMinutes();
-        return '' + y + '/' + 
-            (m<=9 ? '0' + m : m) + '/' + 
-            (d <= 9 ? '0' + d : d) + ' ' + 
-            (h<=9 ? '0' + h : h) + ':' + (mm<=9 ? '0' + mm : mm);
+        return '' + (d <= 9 ? '0' + d : d) + '/' + (m<=9 ? '0' + m : m) + '/' + y;
+        // var h = date.getHours();
+        // var mm = date.getMinutes();
+        // return '' + y + '/' + 
+        //     (m<=9 ? '0' + m : m) + '/' + 
+        //     (d <= 9 ? '0' + d : d) + ' ' + 
+        //     (h<=9 ? '0' + h : h) + ':' + (mm<=9 ? '0' + mm : mm);
     }
 
     // $scope.reloadPage = function(){$window.location.reload()};

@@ -19,7 +19,7 @@ app.controller('parentsController', function($scope, $window, $timeout) {
     .then(result => {
         if (result.code == 200) {
             angular.forEach(result.data, function(user){
-                user.expiredDate = dateToYMD(new Date(user.expiredDate));
+                user.expiredDate = dateToDMY(new Date(user.expiredDate));
             });
             $scope.$apply(function() {
                 $scope.users = result.data;
@@ -108,7 +108,7 @@ app.controller('parentsController', function($scope, $window, $timeout) {
                 console.log(result.data);
                 $scope.$apply(function() {
                     $scope.user = result.data;
-                    $scope.user.expiredDate = dateToYMD(new Date($scope.user.expiredDate));
+                    $scope.user.expiredDate = dateToDMY(new Date($scope.user.expiredDate));
                     $scope.children = result.data.childInformationList;
                     $scope.collaborators = result.data.collaboratorInformationList;
                 });
@@ -127,11 +127,12 @@ app.controller('parentsController', function($scope, $window, $timeout) {
         console.log("Set to: " + $scope.currentSelectedAccount);
     };
 
-    function dateToYMD(date) {
+    function dateToDMY(date) {
         var d = date.getDate();
         var m = date.getMonth() + 1; //Month from 0 to 11
         var y = date.getFullYear();
-        return '' + y + '/' + (m<=9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d);
+        // return '' + y + '/' + (m<=9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d);
+        return '' + (d <= 9 ? '0' + d : d) + '/' + (m<=9 ? '0' + m : m) + '/' + y;
     }
 
     $scope.changeStatus = function(phoneNumber, status) {

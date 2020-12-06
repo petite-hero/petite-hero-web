@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Petite Hero | License & Policy</title>
 
+  <link rel="icon" type="image/png" href="petitehero/img/logo.png"/>
+  <link rel="icon" type="image/png" href="petitehero/img/logo.png"/>
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -179,13 +181,13 @@
               <div class="card-body">
                 <table id="pricetabTable" class="table table-bordered table-striped" >
                   <thead>
-                  <tr>
-                    <td>No.</td>
+                  <tr style="text-align: center">
+                    <th>No.</th>
                     <th>Name</th>
                     <th>Children</th>
                     <th>Collaborators</th>
-                    <th>Price</th>
-                    <th>Duration</th>
+                    <th>Price <small>vnđ</small></th>
+                    <th>Duration <small>days</small></th>
                     <th>Applied From</th>
                     <th>Description</th>
                     <th>Action</th>
@@ -193,13 +195,13 @@
                   </thead>
                   <tbody>
                   <tr ng-repeat="record in records track by $index" ng-model="records">
-                    <td>{{$index + 1}}</td>
+                    <td style="text-align: right">{{$index + 1}}</td>
                     <td>{{record.name}}</td>
-                    <td>{{record.maxChildren}}</td>
-                    <td>{{record.maxCollaborator}}</td>
-                    <td>{{record.price}} <small>vnđ</small></td>
-                    <td>{{record.durationDay}} <small>days</small></td>
-                    <td>{{record.appliedDate}}</td>
+                    <td style="text-align: right">{{record.maxChildren}}</td>
+                    <td style="text-align: right">{{record.maxCollaborator}}</td>
+                    <td style="text-align: right">{{record.price}}</td>
+                    <td style="text-align: right">{{record.durationDay}} </td>
+                    <td style="text-align: right">{{record.appliedDate}}</td>
                     <td>{{record.description}}</td>
                     <td style="text-align: center">
                       <!-- <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-disable" ng-click="setSelectedRecord(record.subscriptionTypeId)">
@@ -215,8 +217,8 @@
                   </tr>
                   </tbody>
                   <tfoot>
-                  <tr>
-                    <td>No.</td>
+                  <tr style="text-align: center">
+                    <th>No.</th>
                     <th>Name</th>
                     <th>Children</th>
                     <th>Collaborators</th>
@@ -253,12 +255,12 @@
             <div class="card-body">
               <table id="replacebTable" class="table table-bordered table-striped">
                 <thead>
-                <tr ng-show="replacePacks.length > 0">
-                  <td>No.</td>
+                <tr ng-show="replacePacks.length > 0" style="text-align: center">
+                  <th>No.</th>
                   <th>Name</th>
                   <th>Children</th>
                   <th>Collaborators</th>
-                  <th>Price</th>
+                  <th>Price <small>vnđ</small></th>
                   <th>Duration</th>
                   <th>Applied From</th>
                   <!-- <th>Description</th> -->
@@ -267,13 +269,13 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="record in replacePacks" ng-model="records">
-                  <td>{{$index + 1}}</td>
+                  <td style="text-align: right">{{$index + 1}}</td>
                   <td>{{record.name}}</td>
-                  <td>{{record.maxChildren}}</td>
-                  <td>{{record.maxCollaborator}}</td>
-                  <td>{{record.price}} <small>vnđ</small></td>
-                  <td>{{record.durationDay}} <small>days</small></td>
-                  <td>{{record.appliedDate}}</td>
+                  <td style="text-align: right">{{record.maxChildren}}</td>
+                  <td style="text-align: right">{{record.maxCollaborator}}</td>
+                  <td style="text-align: right">{{record.price}}</td>
+                  <td style="text-align: right">{{record.durationDay}} <small>days</small></td>
+                  <td style="text-align: right">{{record.appliedDate}}</td>
                   <!-- <td>{{record.description}}</td> -->
                   <td style="text-align: center">
                     <button style="align-self: center" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-disable" ng-click="setReplacePack(record.subscriptionTypeId)">

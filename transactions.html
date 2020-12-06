@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Petite Hero | Accounts</title>
 
+  <link rel="icon" type="image/png" href="petitehero/img/logo.png"/>
+  <link rel="icon" type="image/png" href="petitehero/img/logo.png"/>
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -179,11 +181,11 @@
               <div class="card-body">
                 <table id="transactionsTable" class="table table-bordered table-striped" ng-app="transactions" ng-controller="transactionsController">
                   <thead>
-                  <tr>
+                  <tr style="text-align: center">
                     <th>No.</th>
                     <th>Phone Number</th>
                     <th>Pack</th>
-                    <th>Amount</th>
+                    <th>Amount <small>vnđ</small></th>
                     <th>Status</th>
                     <th>Date</th>
                     <th>Name</th>
@@ -192,18 +194,18 @@
                   </thead>
                   <tbody>
                   <tr ng-repeat="transaction in transactions" ng-model="transactions">
-                    <td>{{$index + 1}}</td>
+                    <td style="text-align: right">{{$index + 1}}</td>
                     <td>{{transaction.parentInformation.phoneNumber}}</td>
                     <td>{{transaction.content}}</td>
-                    <td>{{transaction.amount}} <small>vnđ</small></td>
+                    <td style="text-align: right">{{transaction.amount}}</td>
                     <td>{{transaction.status}}</td>
-                    <td>{{transaction.date}}</td>
+                    <td style="text-align: right">{{transaction.date}}</td>
                     <td>{{transaction.parentInformation.name}}</td>
                     <td>{{transaction.parentInformation.email}}</td>
                   </tr>
                   </tbody>
                   <tfoot>
-                  <tr>
+                  <tr style="text-align: center">
                     <th>No.</th>
                     <th>Phone Number</th>
                     <th>Pack</th>
