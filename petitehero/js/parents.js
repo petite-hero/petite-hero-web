@@ -5,6 +5,7 @@ app.controller('parentsController', function($scope, $window, $timeout) {
     $scope.users = [];
     $scope.children = [];
     $scope.collaborators = [];
+    $scope.subscriptions = [];
     $scope.currentSelectedAccount = "";
 
     fetch(URL + "account/list", {
@@ -58,6 +59,8 @@ app.controller('parentsController', function($scope, $window, $timeout) {
                 $scope.changeStatus($scope.currentSelectedAccount, true);
                 $scope.currentSelectedAccount = "";
                 $('#modal-disable').modal('toggle');
+                $('#modal-msg-text').text("Updated successfully");
+                $('#modal-msg').modal('toggle');
                 // $window.location.reload();
             } else {
                 console.log(result.msg);
@@ -83,6 +86,8 @@ app.controller('parentsController', function($scope, $window, $timeout) {
                 $scope.changeStatus($scope.currentSelectedAccount, false);
                 $scope.currentSelectedAccount = "";
                 $('#modal-activate').modal('toggle');
+                $('#modal-msg-text').text("Updated successfully");
+                $('#modal-msg').modal('toggle');
                 // $window.location.reload();
             } else {
                 console.log(result.msg);
@@ -111,6 +116,12 @@ app.controller('parentsController', function($scope, $window, $timeout) {
                     $scope.user.expiredDate = dateToDMY(new Date($scope.user.expiredDate));
                     $scope.children = result.data.childInformationList;
                     $scope.collaborators = result.data.collaboratorInformationList;
+                    $scope.subscriptions = result.data.subscriptionHistoryList;
+
+                    angular.forEach($scope.subscriptions, function(subscription){
+                        subscription.startDate = dateToDMY(new Date(subscription.startDate));
+                        subscription.expiredDate = dateToDMY(new Date(subscription.expiredDate));
+                    });
                 });
 
             } else {
@@ -146,6 +157,35 @@ app.controller('parentsController', function($scope, $window, $timeout) {
             }
         });
     }
+
+    $scope.resetDevice = function(phoneNumber) {
+        console.log(phoneNumber);
+        fetch(URL + "parent/reset-device?parentPhoneNumber=" + phoneNumber, {
+            method: 'PUT',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              }
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.code == 200) {
+                if (result.data.status == "UPDATED") {
+                    $('#modal-msg-text').text(result.data.status);
+                    $('#modal-msg').modal('toggle');
+                }
+                // $window.location.reload();
+            } else {
+                $('#modal-msg-text').text(result.data.status);
+                $('#modal-msg').modal('toggle');
+                console.log(result.msg);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+     }
 
     $scope.openSubscription = function(subscriptionType) {
        console.log(subscriptionType);

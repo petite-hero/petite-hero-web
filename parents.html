@@ -404,9 +404,29 @@
                         <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Email:</label>
                         <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{collaborator.email}}</label>
                       </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+
+              <ul style="list-style-type:none" ng-show="subscriptions.length > 0">
+                <li class="caret">
+                  <label class="col-sm-4 col-form-label" style="font-size: large">Subscription History:</label>
+                  <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large"></label>
+
+                  <ul class="nested" style="list-style: decimal">
+                    <li ng-repeat="subscription in subscriptions">
                       <div class="form-group row">
-                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Gender:</label>
-                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{collaborator.gender}}</label>
+                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Name:</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{subscription.name}}</label>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Start Date:</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{subscription.startDate}}</label>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Expired Date:</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{subscription.expiredDate}}</label>
                       </div>
                     </li>
                   </ul>
@@ -417,8 +437,31 @@
             
             <div class="modal-footer justify-content-center">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" ng-click="openTransaction(user.phoneNumber)">View User's Transaction</button>
-              <button type="button" class="btn btn-primary" ng-click="openSubscription(user.subscriptionType)">View User's Subscription Type</button>
+              <button type="button" class="btn btn-primary" ng-click="resetDevice(user.phoneNumber)">Reset Device ID</button>
+              <button type="button" class="btn btn-primary" ng-click="openTransaction(user.phoneNumber)">Transactions</button>
+              <button type="button" class="btn btn-primary" ng-click="openSubscription(user.subscriptionType)">Subscription Type</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+      <div class="modal fade" id="modal-msg">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #00ADE8">
+              <h4 class="modal-title" style="color: #fff">Message Dialog</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="text-align: center">
+              <p id="modal-msg-text"></p>
+            </div>
+            <div class="modal-footer justify-content-center">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>
           <!-- /.modal-content -->

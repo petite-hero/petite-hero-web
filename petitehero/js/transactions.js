@@ -16,6 +16,12 @@ app.controller('transactionsController', function($scope, $window) {
         if (result.code == 200) {
             angular.forEach(result.data, function(transaction){
                 transaction.date = dateToDMY(new Date(transaction.date));
+                if (transaction.payDate != null) {
+                    transaction.payDate = dateToDMY(new Date(transaction.payDate));
+                } else {
+                    transaction.payDate = "--"
+                }
+                
             });
             $scope.$apply(function() {
                 $scope.transactions = result.data;

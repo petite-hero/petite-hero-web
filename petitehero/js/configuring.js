@@ -24,9 +24,6 @@ app.controller('configController', function($scope, $window) {
             $('#expiredDay').val(result.data.expired_date_subscription_noti);
             $('#radius').val(result.data.outer_radius);
             $('#delay').val(result.data.report_delay);
-            $('#housework').val(result.data.total_hour_task_housework);
-            $('#education').val(result.data.total_hour_task_education);
-            $('#skill').val(result.data.total_hour_task_skills);
         } else {
             console.log(result.msg);
         }
@@ -44,9 +41,6 @@ app.controller('configController', function($scope, $window) {
         request.expired_date_subscription_noti = $('#expiredDay').val();
         request.outer_radius = $('#radius').val();
         request.report_delay = $('#delay').val();
-        request.total_hour_task_housework = $('#housework').val();
-        request.total_hour_task_education = $('#education').val();
-        request.total_hour_task_skills = $('#skill').val();
 
         fetch(URL + "config", {
             method: 'PUT',
