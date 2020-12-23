@@ -14,15 +14,17 @@ app.controller('transactionsController', function($scope, $window) {
     .then(response => response.json())
     .then(result => {
         if (result.code == 200) {
-            angular.forEach(result.data, function(transaction){
-                transaction.date = dateToDMY(new Date(transaction.date));
-                if (transaction.payDate != null) {
-                    transaction.payDate = dateToDMY(new Date(transaction.payDate));
-                } else {
-                    transaction.payDate = "--"
+            for(var i = 0; i < result.data.length; i++){ 
+                if ( result.data[i].status == "PENDING") { 
+                    result.data.splice(i, 1); 
                 }
-                
-            });
+                result.data[i].date = dateToDMY(new Date(result.data[i].date));
+                if (result.data[i].payDate != null) {
+                    result.data[i].payDate = dateToDMY(new Date(result.data[i].payDate));
+                } else {
+                    result.data[i].payDate = "--"
+                }
+            }
             $scope.$apply(function() {
                 $scope.transactions = result.data;
             });

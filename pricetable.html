@@ -204,15 +204,9 @@
                     <td style="text-align: right">{{record.appliedDate}}</td>
                     <td>{{record.description}}</td>
                     <td style="text-align: center">
-                      <!-- <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-disable" ng-click="setSelectedRecord(record.subscriptionTypeId)">
-                        <i class="fas fa-trash"></i>
-                      </button> -->
-                      <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-replace" ng-click="getReplacePacks(record.subscriptionTypeId)">
+                      <button style="align-self: center" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-replace" ng-click="getReplacePacks(record.subscriptionTypeId)" ng-show='record.name != "Free Trial"'>
                         <i class="fas fa-trash"></i>
                       </button>
-                      <!-- <button style="align-self: center" type="button" class="btn btn-danger" ng-click="removeRecord(record)">
-                        <i class="fas fa-trash"></i>
-                      </button> -->
                     </td>
                   </tr>
                   </tbody>
@@ -263,7 +257,6 @@
                   <th>Price <small>vnđ</small></th>
                   <th>Duration</th>
                   <th>Applied From</th>
-                  <!-- <th>Description</th> -->
                   <th>Choose</th>
                 </tr>
                 </thead>
@@ -276,7 +269,6 @@
                   <td style="text-align: right">{{record.price}}</td>
                   <td style="text-align: right">{{record.durationDay}} <small>days</small></td>
                   <td style="text-align: right">{{record.appliedDate}}</td>
-                  <!-- <td>{{record.description}}</td> -->
                   <td style="text-align: center">
                     <button style="align-self: center" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-disable" ng-click="setReplacePack(record.subscriptionTypeId)">
                       <i class="fas fa-check-circle"></i>

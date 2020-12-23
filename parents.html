@@ -418,7 +418,7 @@
                     <li ng-repeat="subscription in subscriptions">
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Name:</label>
-                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large">{{subscription.name}}</label>
+                        <label class="col-sm-5 col-form-label font-weight-light" style="font-size: large" ng-click="getSubscriptionDetails(subscription.subscriptionId)"><a href="#" data-toggle="modal" data-target="#modal-transactions">{{subscription.name}}</a></label>
                       </div>
                       <div class="form-group row">
                         <label class="col-sm-4 col-form-label font-weight-light" style="font-size: large">Start Date:</label>
@@ -460,6 +460,54 @@
             <div class="modal-body" style="text-align: center">
               <p id="modal-msg-text"></p>
             </div>
+            <div class="modal-footer justify-content-center">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+      <!-- /.modal -->
+      <div class="modal fade" id="modal-transactions">
+        <div class="modal-dialog" style="max-width: 75%;">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #00ADE8">
+              <h4 class="modal-title" style="color: #fff">Related Transactions</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="card-body">
+              <table id="transactionsTable" class="table table-bordered table-striped">
+                <thead ng-show="transactions.length > 0">
+                <tr style="text-align: center">
+                  <th>No.</th>
+                  <th>Content</th>
+                  <th>Amount <small>vnđ</small></th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="transaction in transactions" ng-model="records">
+                  <td style="text-align: right">{{$index + 1}}</td>
+                  <td>{{transaction.content}}</td>
+                  <td style="text-align: right">{{transaction.amount}}</td>
+                  <td>{{transaction.status}}</td>
+                  <td style="text-align: right">{{transaction.date}}</td>
+                </tr>
+                </tbody>
+              </table>
+              <div class="modal-body" style="text-align: center" ng-show="transactions.length == 0">
+                <p>Found no transaction for this Subscription</p>
+              </div>
+            </div>
+            
+            
             <div class="modal-footer justify-content-center">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>

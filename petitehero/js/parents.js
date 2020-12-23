@@ -6,6 +6,7 @@ app.controller('parentsController', function($scope, $window, $timeout) {
     $scope.children = [];
     $scope.collaborators = [];
     $scope.subscriptions = [];
+    $scope.transactions = [];
     $scope.currentSelectedAccount = "";
 
     fetch(URL + "account/list", {
@@ -186,6 +187,48 @@ app.controller('parentsController', function($scope, $window, $timeout) {
         });
 
      }
+
+     $scope.getSubscriptionDetails = function(subscriptionId) {
+        console.log(subscriptionId)
+        var request = new Object();
+        request.subscriptionId = subscriptionId;
+        fetch(URL + "payment/list?subscriptionId=" + subscriptionId, {
+            method: 'GET',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.code == 200) {
+                if (result.data.length != 0) {
+                    angular.forEach(result.data, function(record){
+                        record.date = dateToDMY(new Date(record.date));
+                    });
+                    $scope.$apply(function() {
+                        $scope.transactions = result.data;
+                    });
+                    console.log($scope.transactions);
+
+                    $("#transactionsTable").DataTable({
+                        "responsive": true, "lengthChange": false, "autoWidth": false, "bdestroy": true, "bInfo" : false, "bPaginate": false
+                    }).buttons().container().appendTo('#replacebTable_wrapper .col-md-6:eq(0)');
+                    $('.dataTables_filter input').attr('maxLength', 30);
+                    $.fn.dataTable.ext.errMode = 'none';
+                }
+                else {
+                    
+                }
+                
+            } else {
+                console.log(result.msg);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    };
 
     $scope.openSubscription = function(subscriptionType) {
        console.log(subscriptionType);
